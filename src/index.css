@@ -1,0 +1,53 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* neleidžia scroll */
+}
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  background-color: #1e1e1e;
+  color: white;
+  padding: 1rem;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+footer {
+  background-color: #1e1e1e;
+  color: white;
+  padding: 1rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  font-size: 14px;
+  z-index: 1000;
+  text-align: center;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding-top: 80px;   /* Header aukštis */
+  padding-bottom: 80px; /* Footer aukštis */
+}
+
+/* Mobilus pataisymas */
+@media (max-width: 576px) {
+  nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  footer {
+    font-size: 12px;
+    padding: 0.5rem;
+  }
+}
