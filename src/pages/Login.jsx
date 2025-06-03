@@ -1,19 +1,26 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  const { setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Prisijungimo bandymas su:", email, password);
-    // Vėliau čia bus axios POST į serverį
+
+    // Testavimui – vėliau čia bus axios POST į serverį
+    setUser({ email }); // Paprastai saugomas email arba ID
+    navigate("/accounts"); // Po prisijungimo
   };
 
   return (
     <div className="container mt-5" style={{ maxWidth: "400px" }}>
       <h2 className="mb-4 text-center">Prisijungimas</h2>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">El. paštas</label>
           <input
@@ -26,7 +33,7 @@ export default function Login() {
             required
           />
         </div>
-        <div className="mb-3">
+        <div className="form-wrapper">
           <label htmlFor="password" className="form-label">Slaptažodis</label>
           <input
             type="password"

@@ -6,7 +6,7 @@
   padding-bottom: 2px;
   border-bottom: 2px solid transparent;
   white-space: nowrap; /* Kad žodžiai nesulūžtų */
-  font-size: 1rem;
+  font-size: 0.2rem;
 }
 
 .navLink:hover {
@@ -30,5 +30,20 @@
   nav {
     display: flex;
     gap:10px;
+  }
+}
+/* Mygtukų išdėstymas lentelėje – kad nesulūžtų */
+@media (max-width: 576px) {
+  .table td {
+    font-size: 14px;
+  }
+
+  .btn-sm {
+    margin-bottom: 5px;
+    width: 100%;
+  }
+
+  .btn-sm + .btn-sm {
+    margin-left: 0;
   }
 }

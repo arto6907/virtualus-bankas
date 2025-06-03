@@ -1,8 +1,0 @@
-.main-image {
-  max-width: 90%;
-  max-height: 500px; /* ar kiek tau reikia */
-  object-fit: contain;
-  display: block;
-  margin: 0 auto; /* centruoja horizontaliai */
-  padding: 2rem 0;
-}

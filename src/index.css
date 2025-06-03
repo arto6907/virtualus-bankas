@@ -1,53 +1,127 @@
+:root {
+  --footer-height: 40px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --footer-height: 60px;
+  }
+}
+
+/* Pagrindas */
 html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* neleidžia scroll */
+}
+
+body.home-page {
+  overflow: hidden;
 }
 
 .app-wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow: auto;
 }
 
+/* Header */
 header {
   background-color: #1e1e1e;
   color: white;
   padding: 1rem;
+  text-align: center;
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   z-index: 1000;
 }
 
+/* Footer */
 footer {
   background-color: #1e1e1e;
   color: white;
-  padding: 1rem;
+  text-align: center;
   position: fixed;
   bottom: 0;
+  left: 0;
   width: 100%;
-  font-size: 14px;
+  height: var(--footer-height);
   z-index: 1000;
-  text-align: center;
+  font-size: 14px;
+  padding: 1rem;
 }
 
+/* Turinys tarp header ir footer */
 .main-content {
   flex-grow: 1;
-  padding-top: 80px;   /* Header aukštis */
-  padding-bottom: 80px; /* Footer aukštis */
+  padding-top: 20px;
+  padding-bottom: var(--footer-height);
+  overflow-y: auto;
 }
 
-/* Mobilus pataisymas */
+/* Formos */
+.form-wrapper, .form-wraper {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Titulinio puslapio nuotrauka */
+.main-image {
+  max-width: 90%;
+  max-height: 500px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+/* Mobilieji (576px) */
 @media (max-width: 576px) {
   nav {
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
   }
 
+  .form-wrapper, .form-wraper {
+    padding: 0.5rem;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 15px;
+    padding: 0.5rem;
+  }
+
+  label {
+    font-size: 14px;
+  }
+
   footer {
     font-size: 12px;
     padding: 0.5rem;
+  }
+
+  h2, h1 {
+    font-size: 20px;
+  }
+
+  button.btn {
+    font-size: 12px;
+    padding: 0.4rem;
   }
 }
