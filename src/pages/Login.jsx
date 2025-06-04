@@ -1,22 +1,33 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import AuthContext from "../context/AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
   const { setUser } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  try {
+    const res = await axios.post("/api/auth/login", { email, password });
 
-    // Testavimui – vėliau čia bus axios POST į serverį
-    setUser({ email }); // Paprastai saugomas email arba ID
-    navigate("/accounts"); // Po prisijungimo
-  };
+    setUser(res.data);
+    localStorage.setItem("user", JSON.stringify(res.data)); // 👈 išsaugoti vartotojo duomenis
 
+    navigate("/accounts");
+  } catch (err) {
+    console.error("Prisijungimo klaida:", err);
+    setError("Neteisingi prisijungimo duomenys.");
+  }
+};
+const navigate = useNavigate();
+  
+ 
   return (
     <div className="container mt-5" style={{ maxWidth: "400px" }}>
       <h2 className="mb-4 text-center">Prisijungimas</h2>
@@ -27,25 +38,24 @@ export default function Login() {
             type="email"
             className="form-control"
             id="email"
-            placeholder="Įveskite el. paštą"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
-        <div className="form-wrapper">
+        <div className="mb-3">
           <label htmlFor="password" className="form-label">Slaptažodis</label>
           <input
             type="password"
             className="form-control"
             id="password"
-            placeholder="Įveskite slaptažodį"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        <button type="submit" className="btn btn-primary w-100">Prisijungti</button>
+        {error && <div className="alert alert-danger">{error}</div>}
+        <button className="btn btn-primary w-100">Prisijungti</button>
       </form>
     </div>
   );

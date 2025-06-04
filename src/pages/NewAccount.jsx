@@ -36,6 +36,10 @@ export default function NewAccount() {
           <input type="text" className="form-control" name="lastName" required onChange={handleChange} />
         </div>
         <div className="mb-3">
+          <label className="form-label">sąskaitos numeris</label>
+          <input type="text" className="form-control" name="Account number" required onChange={handleChange} />
+        </div>
+        <div className="mb-3">
           <label className="form-label">Asmens kodas</label>
           <input type="text" className="form-control" name="idCode" required onChange={handleChange} />
         </div>

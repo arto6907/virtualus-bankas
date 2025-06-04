@@ -1,35 +1,29 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function AccountsList() {
   const [accounts, setAccounts] = useState([]);
 
   useEffect(() => {
-    // Testiniai duomenys, backend dar neprijungtas
-    setAccounts([
-      {
-        id: 1,
-        firstName: "Jonas",
-        lastName: "Jonaitis",
-        balance: 120.50,
-      },
-      {
-        id: 2,
-        firstName: "Ona",
-        lastName: "Onaitė",
-        balance: 0,
-      },
-    ]);
+    axios
+      .get("/api/accounts")
+      .then((res) => setAccounts(res.data))
+      .catch((err) => console.error("Klaida gaunant sąskaitas:", err));
   }, []);
 
-  const handleDelete = (id, balance) => {
+  const handleDelete = async (id, balance) => {
     if (balance > 0) {
       alert("Negalima ištrinti sąskaitos su likučiu.");
       return;
     }
 
-    // Pašalinti iš testinio sąrašo
-    setAccounts((prev) => prev.filter((acc) => acc.id !== id));
+    try {
+      await axios.delete(`/api/accounts/${id}`);
+      setAccounts((prev) => prev.filter((acc) => acc._id !== id));
+    } catch (error) {
+      console.error("Klaida šalinant sąskaitą:", error);
+    }
   };
 
   return (
@@ -53,26 +47,26 @@ export default function AccountsList() {
           {accounts
             .sort((a, b) => a.lastName.localeCompare(b.lastName))
             .map((acc) => (
-              <tr key={acc.id}>
+              <tr key={acc._id}>
                 <td>{acc.firstName}</td>
                 <td>{acc.lastName}</td>
                 <td>{acc.balance.toFixed(2)} €</td>
                 <td>
                   <Link
-                    to={`/accounts/add/${acc.id}`}
+                    to={`/accounts/add/${acc._id}`}
                     className="btn btn-primary btn-sm me-2"
                   >
                     Pridėti lėšų
                   </Link>
                   <Link
-                    to={`/accounts/withdraw/${acc.id}`}
+                    to={`/accounts/withdraw/${acc._id}`}
                     className="btn btn-warning btn-sm me-2"
                   >
                     Nuskaičiuoti
                   </Link>
                   <button
                     className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(acc.id, acc.balance)}
+                    onClick={() => handleDelete(acc._id, acc.balance)}
                   >
                     Ištrinti
                   </button>

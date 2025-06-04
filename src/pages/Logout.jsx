@@ -8,6 +8,7 @@ export default function Logout() {
 
   useEffect(() => {
     setUser(null);
+    localStorage.removeItem("user"); // 👈 ištrinti vartotojo info iš localStorage
     navigate("/");
   }, [setUser, navigate]);
 

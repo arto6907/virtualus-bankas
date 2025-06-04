@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import AuthContext from "./context/AuthContext";
@@ -14,7 +14,12 @@ import AddFunds from "./pages/AddFunds";
 import WithdrawFunds from "./pages/WithdrawFunds";
 
 function App() {
-  const [user, setUser] = useState(null);
+  // 👉 Pradinis user būsenos nustatymas iš localStorage
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+
   const location = useLocation();
 
   // Uždėti scroll tik tituliniame puslapyje
@@ -35,10 +40,10 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
-            <Route path="/accounts" element={<AccountsList />} />
-            <Route path="/accounts/new" element={<NewAccount />} />
-            <Route path="/accounts/add/:id" element={<AddFunds />} />
-            <Route path="/accounts/withdraw/:id" element={<WithdrawFunds />} />
+            <Route path="/accounts" element={user ? <AccountsList /> : <Navigate to="/login" />} />
+            <Route path="/accounts/new" element={user ? <NewAccount /> : <Navigate to="/login" />} />
+            <Route path="/accounts/add/:id" element={user ? <AddFunds /> : <Navigate to="/login" />} />
+            <Route path="/accounts/withdraw/:id" element={user ? <WithdrawFunds /> : <Navigate to="/login" />} />
           </Routes>
         </main>
         <Footer />
