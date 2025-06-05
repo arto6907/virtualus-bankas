@@ -12,16 +12,18 @@ export default function Navigation() {
   };
 
   return (
-    <nav>
-      <NavLink to="/" style={{ margin: "0 10px", color: "white" }}>Titulinis</NavLink>
+    <nav className="d-flex align-items-center gap-2">
+      <NavLink to="/" className="btn btn-sm btn-outline-light">Titulinis</NavLink>
+
       {!user && (
-        <NavLink to="/login" style={{ margin: "0 10px", color: "white" }}>Prisijungti</NavLink>
+        <NavLink to="/login" className="btn btn-sm btn-outline-light">Prisijungti</NavLink>
       )}
+
       {user && (
         <>
-          <NavLink to="/accounts" style={{ margin: "0 10px", color: "white" }}>Sąskaitos</NavLink>
-          <NavLink to="/accounts/new" style={{ margin: "0 10px", color: "white" }}>Nauja sąskaita</NavLink>
-          <button onClick={handleLogout} style={{ margin: "0 10px", background: "transparent", border: "none", color: "white", cursor: "pointer" }}>
+          <NavLink to="/accounts" className="btn btn-sm btn-outline-light">Sąskaitos</NavLink>
+          <NavLink to="/accounts/new" className="btn btn-sm btn-outline-light">Nauja sąskaita</NavLink>
+          <button onClick={handleLogout} className="btn btn-sm btn-outline-light">
             Atsijungti
           </button>
         </>

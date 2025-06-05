@@ -22,7 +22,7 @@ function App() {
 
   const location = useLocation();
 
-  // Uždėti scroll tik tituliniame puslapyje
+  // Scroll efektas tik Home puslapyje (fone)
   useEffect(() => {
     if (location.pathname === "/") {
       document.body.classList.add("home-page");
@@ -33,9 +33,9 @@ function App() {
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
-      <div className="app-wrapper">
+      <div className="app-wrapper d-flex flex-column min-vh-100">
         <Header />
-        <main className="main-content">
+        <main className="main-content flex-grow-1 py-4 px-3">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />

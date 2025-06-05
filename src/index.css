@@ -55,12 +55,11 @@ footer {
 }
 
 /* Turinys tarp header ir footer */
-.main-content {
-  flex-grow: 1;
-  padding-top: 20px;
-  padding-bottom: var(--footer-height);
-  overflow-y: auto;
+main-content {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
 }
+
 
 /* Formos */
 .form-wrapper, .form-wraper {
@@ -84,16 +83,16 @@ textarea {
   object-fit: contain;
   display: block;
   margin: 0 auto;
-  padding: 2rem 0;
+  padding: 0; /* buvo 2rem – sumažinta */
 }
 
 /* Mobilieji (576px) */
 @media (max-width: 576px) {
   nav {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 0.5rem;
   }
 
   .form-wrapper, .form-wraper {
@@ -120,8 +119,18 @@ textarea {
     font-size: 20px;
   }
 
-  button.btn {
+  button.btn,
+  .btn {
     font-size: 12px;
-    padding: 0.4rem;
+    padding: 0.4rem 0.6rem;
   }
+}
+.app-header {
+  padding: 5px 15px;
+  height: auto;
+}
+
+.nav .btn {
+  padding: 3px 8px;
+  font-size: 0.85rem;
 }

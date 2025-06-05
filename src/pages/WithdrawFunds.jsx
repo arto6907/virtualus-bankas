@@ -50,8 +50,8 @@ export default function WithdrawFunds() {
   if (!account) return <p className="mt-4">Kraunama...</p>;
 
   return (
-    <div className="container mt-4">
-      <h2>Nuskaičiuoti lėšas</h2>
+    <div className="container mt-4"style={{ paddingTop: "80px" }}>
+      <h3>Nuskaičiuoti lėšas</h3>
       <p>
         <strong>{account.firstName} {account.lastName}</strong><br />
         IBAN: {account.iban}<br />

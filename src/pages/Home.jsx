@@ -7,16 +7,16 @@ export default function Home() {
     backgroundPosition: 'center',
     minHeight: '100vh',
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-start', // Tekstas pakeltas aukštyn
-    paddingTop: '140px',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingTop: '80px',
     paddingBottom: '80px',
     paddingLeft: '1rem',
     paddingRight: '1rem',
     color: 'white',
     textShadow: '1px 1px 4px black',
     textAlign: 'center',
-    flexDirection: 'column',
   };
 
   const containerStyle = {

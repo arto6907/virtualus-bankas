@@ -36,7 +36,7 @@ export default function AddFunds() {
 
       setAccount(res.data); // Naujas balansas
       setAmount("");
-      setMessage("✅ Lėšos pridėtos sėkmingai.");
+      setMessage(" Lėšos pridėtos sėkmingai.");
     } catch (err) {
       console.error("Klaida pridedant lėšas:", err);
       setError("Nepavyko pridėti lėšų. Bandykite vėliau.");
@@ -48,7 +48,7 @@ export default function AddFunds() {
 
   return (
     <div className="container mt-4">
-      <h2>Pridėti lėšų</h2>
+      <h3>Pridėti lėšų</h3>
       <p>
         <strong>{account.firstName} {account.lastName}</strong><br />
         IBAN: {account.iban}<br />

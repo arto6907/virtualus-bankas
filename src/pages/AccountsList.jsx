@@ -28,7 +28,7 @@ export default function AccountsList() {
 
   return (
     <div className="form-wraper">
-      <h2>Apžvalga</h2>
+      <h3>Apžvalga</h3>
 
       <Link to="/accounts/new" className="btn btn-success mb-3">
         Nauja sąskaita
@@ -54,18 +54,18 @@ export default function AccountsList() {
                 <td>
                   <Link
                     to={`/accounts/add/${acc._id}`}
-                    className="btn btn-primary btn-sm me-2"
+                    className="btn btn-primary btn-sm"
                   >
                     Pridėti lėšų
                   </Link>
                   <Link
                     to={`/accounts/withdraw/${acc._id}`}
-                    className="btn btn-warning btn-sm me-2"
+                    className="btn btn-warning btn-sm"
                   >
                     Nuskaičiuoti
                   </Link>
                   <button
-                    className="btn btn-danger btn-sm"
+                    className="btn btn-danger btn sm"
                     onClick={() => handleDelete(acc._id, acc.balance)}
                   >
                     Ištrinti
