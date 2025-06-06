@@ -5,7 +5,7 @@
 ## 🧪 Testavimui:
 
 - **El. paštas:** admin@example.com  
-- **Slaptažodis:** 12345678
+- **Slaptažodis:** 123456
 
 ## 📝 Pastabos
 
