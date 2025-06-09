@@ -1,10 +1,12 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-
 import AuthContext from "./context/AuthContext";
+
 import Header from "./components/header/Header";
 import Footer from "./footer/Footer";
+import './styles/mobile.css';
 
+import AccountDetails from "./pages/AccountDetails";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
@@ -12,9 +14,9 @@ import AccountsList from "./pages/AccountsList";
 import NewAccount from "./pages/NewAccount";
 import AddFunds from "./pages/AddFunds";
 import WithdrawFunds from "./pages/WithdrawFunds";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  // 👉 Pradinis user būsenos nustatymas iš localStorage
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
@@ -22,7 +24,6 @@ function App() {
 
   const location = useLocation();
 
-  // Scroll efektas tik Home puslapyje (fone)
   useEffect(() => {
     if (location.pathname === "/") {
       document.body.classList.add("home-page");
@@ -40,10 +41,21 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
-            <Route path="/accounts" element={user ? <AccountsList /> : <Navigate to="/login" />} />
-            <Route path="/accounts/new" element={user ? <NewAccount /> : <Navigate to="/login" />} />
-            <Route path="/accounts/add/:id" element={user ? <AddFunds /> : <Navigate to="/login" />} />
-            <Route path="/accounts/withdraw/:id" element={user ? <WithdrawFunds /> : <Navigate to="/login" />} />
+            <Route path="/accounts" element={
+              <ProtectedRoute><AccountsList /></ProtectedRoute>
+            } />
+            <Route path="/accounts/new" element={
+              <ProtectedRoute><NewAccount /></ProtectedRoute>
+            } />
+            <Route path="/accounts/add/:id" element={
+              <ProtectedRoute><AddFunds /></ProtectedRoute>
+            } />
+            <Route path="/accounts/withdraw/:id" element={
+              <ProtectedRoute><WithdrawFunds /></ProtectedRoute>
+            } />
+            <Route path="/accounts/:id" element={
+              <ProtectedRoute><AccountDetails /></ProtectedRoute>
+            } />
           </Routes>
         </main>
         <Footer />

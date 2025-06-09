@@ -17,7 +17,14 @@ export default function Login() {
     const res = await axios.post("/api/auth/login", { email, password });
 
     setUser(res.data);
-    localStorage.setItem("user", JSON.stringify(res.data)); // 👈 išsaugoti vartotojo duomenis
+   // 👈 išsaugoti vartotojo duomenis
+   localStorage.setItem("token", res.data.token); // saugo JWT
+localStorage.setItem("user", JSON.stringify({
+  email: res.data.email,
+  userId: res.data.userId,
+  photo: res.data.photo
+}));
+
 
     navigate("/accounts");
   } catch (err) {

@@ -9,12 +9,25 @@ export default function AddFunds() {
   const [error, setError] = useState(null);
   const [message, setMessage] = useState("");
 
-  // Gauti sąskaitos duomenis
+  // Gauti sąskaitos duomenis su tokenu
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("Vartotojas neprisijungęs");
+      return;
+    }
+
     axios
-      .get(`/api/accounts/${id}`)
+      .get(`/api/accounts/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => setAccount(res.data))
-      .catch(() => setError("Nepavyko gauti sąskaitos duomenų."));
+      .catch((err) => {
+        console.error("❌ Klaida gaunant sąskaitą:", err);
+        setError("Nepavyko gauti sąskaitos duomenų.");
+      });
   }, [id]);
 
   const handleSubmit = async (e) => {
@@ -23,22 +36,33 @@ export default function AddFunds() {
     setMessage("");
 
     const numericAmount = parseFloat(amount);
-
     if (!account || numericAmount <= 0) {
       setError("Suma turi būti didesnė už 0.");
       return;
     }
 
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("Prisijungimas reikalingas.");
+      return;
+    }
+
     try {
-      const res = await axios.patch(`/api/accounts/add/${id}`, {
-        amount: numericAmount,
-      });
+      const res = await axios.patch(
+        `/api/accounts/add/${id}`,
+        { amount: numericAmount },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       setAccount(res.data); // Naujas balansas
       setAmount("");
-      setMessage(" Lėšos pridėtos sėkmingai.");
+      setMessage("✅ Lėšos pridėtos sėkmingai.");
     } catch (err) {
-      console.error("Klaida pridedant lėšas:", err);
+      console.error("❌ Klaida pridedant lėšas:", err);
       setError("Nepavyko pridėti lėšų. Bandykite vėliau.");
     }
   };
@@ -48,7 +72,7 @@ export default function AddFunds() {
 
   return (
     <div className="container mt-4">
-      <h3>Pridėti lėšų</h3>
+      <h5>Pridėti lėšų</h5>
       <p>
         <strong>{account.firstName} {account.lastName}</strong><br />
         IBAN: {account.iban}<br />
@@ -69,7 +93,7 @@ export default function AddFunds() {
             required
           />
         </div>
-        <button type="submit" className="btn btn-success">Pridėti</button>
+        <button className="btn btn-success">Pridėti lėšų</button>
       </form>
 
       {message && <div className="alert alert-success mt-3">{message}</div>}

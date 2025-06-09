@@ -1,11 +1,7 @@
+/* === Pradinė `index.css` stiliaus versija === */
+
 :root {
   --footer-height: 40px;
-}
-
-@media (max-width: 768px) {
-  :root {
-    --footer-height: 60px;
-  }
 }
 
 /* Pagrindas */
@@ -15,15 +11,10 @@ html, body {
   padding: 0;
 }
 
-body.home-page {
-  overflow: hidden;
-}
-
 .app-wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  overflow: auto;
 }
 
 /* Header */
@@ -60,7 +51,6 @@ main-content {
   margin-top: 0 !important;
 }
 
-
 /* Formos */
 .form-wrapper, .form-wraper {
   width: 100%;
@@ -78,59 +68,80 @@ textarea {
 
 /* Titulinio puslapio nuotrauka */
 .main-image {
-  max-width: 90%;
+  max-width: 100%;
   max-height: 500px;
   object-fit: contain;
   display: block;
   margin: 0 auto;
-  padding: 0; /* buvo 2rem – sumažinta */
+  padding: 0;
+}
+:root {
+  --footer-height: 40px;
 }
 
-/* Mobilieji (576px) */
-@media (max-width: 576px) {
-  nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-
-  .form-wrapper, .form-wraper {
-    padding: 0.5rem;
-  }
-
-  input,
-  select,
-  textarea {
-    font-size: 15px;
-    padding: 0.5rem;
-  }
-
-  label {
-    font-size: 14px;
-  }
-
-  footer {
-    font-size: 12px;
-    padding: 0.5rem;
-  }
-
-  h2, h1 {
-    font-size: 20px;
-  }
-
-  button.btn,
-  .btn {
-    font-size: 12px;
-    padding: 0.4rem 0.6rem;
-  }
-}
-.app-header {
-  padding: 5px 15px;
-  height: auto;
+/* Pagrindinis puslapio išdėstymas */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
 }
 
-.nav .btn {
-  padding: 3px 8px;
-  font-size: 0.85rem;
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header – fiksuotas viršuje */
+header {
+  background-color: #1e1e1e;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Footer – fiksuotas apačioje */
+footer {
+  background-color: #1e1e1e;
+  color: white;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: var(--footer-height);
+  z-index: 1000;
+  font-size: 14px;
+  padding: 1rem;
+}
+
+/* Turinys tarp header ir footer */
+.main-content {
+  padding-top: 80px;           /* atstumas nuo header */
+  padding-bottom: 60px;        /* atstumas nuo footer */
+  min-height: calc(100vh - 100px);
+  box-sizing: border-box;
+}
+
+/* Formos centro išdėstymas */
+.form-wrapper {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Titulinio puslapio nuotrauka */
+.main-image {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  max-height: calc(100vh - 150px); /* neviršyti matomos dalies */
+  object-fit: contain;
 }

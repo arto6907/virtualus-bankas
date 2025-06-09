@@ -6,10 +6,23 @@ export default function AccountsList() {
   const [accounts, setAccounts] = useState([]);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.warn("Vartotojas neprisijungęs – nėra token");
+      return;
+    }
+
     axios
-      .get("/api/accounts")
+      .get("/api/accounts", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => setAccounts(res.data))
-      .catch((err) => console.error("Klaida gaunant sąskaitas:", err));
+      .catch((err) => {
+        console.error("❌ Klaida gaunant sąskaitas:", err);
+        alert("Nepavyko gauti sąskaitų – gal būt neprisijungęs?");
+      });
   }, []);
 
   const handleDelete = async (id, balance) => {
@@ -19,18 +32,24 @@ export default function AccountsList() {
     }
 
     try {
-      await axios.delete(`/api/accounts/${id}`);
+      const token = localStorage.getItem("token");
+      await axios.delete(`/api/accounts/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setAccounts((prev) => prev.filter((acc) => acc._id !== id));
     } catch (error) {
-      console.error("Klaida šalinant sąskaitą:", error);
+      console.error("❌ Klaida šalinant sąskaitą:", error);
+      alert("Nepavyko ištrinti sąskaitos.");
     }
   };
 
   return (
-    <div className="form-wraper">
-      <h3>Apžvalga</h3>
+    <div className="container mt-4 accounts-list-container">
+      <h5>Sąskaitų sąrašas</h5>
 
-      <Link to="/accounts/new" className="btn btn-success mb-3">
+      <Link to="/accounts/new" className="btn btn-success mb-2">
         Nauja sąskaita
       </Link>
 
@@ -53,19 +72,25 @@ export default function AccountsList() {
                 <td>{acc.balance.toFixed(2)} €</td>
                 <td>
                   <Link
+                    to={`/accounts/${acc._id}`}
+                    className="btn btn-info btn-sm me-1"
+                  >
+                    Detalės
+                  </Link>
+                  <Link
                     to={`/accounts/add/${acc._id}`}
-                    className="btn btn-primary btn-sm"
+                    className="btn btn-primary btn-sm me-1"
                   >
                     Pridėti lėšų
                   </Link>
                   <Link
                     to={`/accounts/withdraw/${acc._id}`}
-                    className="btn btn-warning btn-sm"
+                    className="btn btn-warning btn-sm me-1"
                   >
                     Nuskaičiuoti
                   </Link>
                   <button
-                    className="btn btn-danger btn sm"
+                    className="btn btn-danger btn-sm"
                     onClick={() => handleDelete(acc._id, acc.balance)}
                   >
                     Ištrinti

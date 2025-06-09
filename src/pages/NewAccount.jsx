@@ -20,24 +20,29 @@ export default function NewAccount() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("❌ Reikia prisijungti, kad galėtumėte kurti sąskaitą.");
+      return;
+    }
+
     const form = new FormData();
     form.append("firstName", formData.firstName);
     form.append("lastName", formData.lastName);
     form.append("idCode", formData.personalId);
-
-    form.append("photo", formData.photo);
+    form.append("image", formData.photo);
 
     try {
       const res = await axios.post("/api/accounts", form, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       });
 
       alert("✅ Sąskaita sukurta sėkmingai!");
       console.log("Serverio atsakymas:", res.data);
 
-      // Išvalyti formą po sėkmės
       setFormData({
         firstName: "",
         lastName: "",
@@ -46,16 +51,19 @@ export default function NewAccount() {
       });
     } catch (err) {
       console.error("❌ Klaida kuriant sąskaitą:", err);
-      alert("Klaida! Nepavyko sukurti sąskaitos.");
+      alert(
+        err.response?.data?.error ||
+          "Nepavyko sukurti sąskaitos. Bandykite vėliau."
+      );
     }
   };
 
   return (
     <div className="container mt-4" style={{ paddingBottom: "100px" }}>
-      <h2 className="mb-4">Naujos sąskaitos kūrimas</h2>
+      <h5 className="mb-2">Naujos sąskaitos kūrimas</h5>
 
       <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <div className="mb-3">
+        <div className="mb-2">
           <label className="form-label">Vardas</label>
           <input
             type="text"
@@ -67,7 +75,7 @@ export default function NewAccount() {
           />
         </div>
 
-        <div className="mb-3">
+        <div className="mb-2">
           <label className="form-label">Pavardė</label>
           <input
             type="text"
@@ -79,7 +87,7 @@ export default function NewAccount() {
           />
         </div>
 
-        <div className="mb-3">
+        <div className="mb-2">
           <label className="form-label">Asmens kodas</label>
           <input
             type="text"
@@ -91,7 +99,7 @@ export default function NewAccount() {
           />
         </div>
 
-        <div className="mb-3">
+        <div className="mb-2">
           <label className="form-label">Paso kopija (nuotrauka)</label>
           <input
             type="file"
