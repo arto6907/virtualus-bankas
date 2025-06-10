@@ -32,6 +32,7 @@ export default function AccountDetails() {
       <p><strong>Vardas:</strong> {account.firstName}</p>
       <p><strong>Pavardė:</strong> {account.lastName}</p>
       <p><strong>Asmens kodas:</strong> {account.idCode}</p>
+      <p><strong>IBAN:</strong> {account.iban}</p> {/* 👈 PRIDĖTA */}
       <p><strong>Likutis:</strong> {account.balance.toFixed(2)} €</p>
       {account.photo && (
         <img
