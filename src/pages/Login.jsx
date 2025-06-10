@@ -9,32 +9,42 @@ export default function Login() {
   const [error, setError] = useState(null);
 
   const { setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError(null);
+    e.preventDefault();
+    setError(null);
 
-  try {
-    const res = await axios.post("/api/auth/login", { email, password });
+    try {
+      const res = await axios.post("/api/auth/login", { email, password });
+      console.log("✅ Backend atsakymas:", res.data);
 
-    setUser(res.data);
-   // 👈 išsaugoti vartotojo duomenis
-   localStorage.setItem("token", res.data.token); // saugo JWT
-localStorage.setItem("user", JSON.stringify({
-  email: res.data.email,
-  userId: res.data.userId,
-  photo: res.data.photo
-}));
+      // Patikrinam ar res.data turi `user` objektą
+      const userData = res.data.user || {
+        email: res.data.email,
+        userId: res.data.userId,
+        firstName: res.data.firstName,
+        lastName: res.data.lastName,
+        photo: res.data.photo || null
+      };
 
+      const token = res.data.token;
 
-    navigate("/accounts");
-  } catch (err) {
-    console.error("Prisijungimo klaida:", err);
-    setError("Neteisingi prisijungimo duomenys.");
-  }
-};
-const navigate = useNavigate();
-  
- 
+      if (!token || !userData.email || !userData.userId) {
+        throw new Error("❌ Trūksta naudotojo duomenų arba tokeno");
+      }
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(userData));
+
+      setUser(userData);
+      navigate("/accounts");
+    } catch (err) {
+      console.error("❌ Prisijungimo klaida:", err);
+      setError("Neteisingi prisijungimo duomenys.");
+    }
+  };
+
   return (
     <div className="container mt-5" style={{ maxWidth: "400px" }}>
       <h2 className="mb-4 text-center">Prisijungimas</h2>

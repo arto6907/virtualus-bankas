@@ -18,8 +18,13 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
+    try {
+      const stored = localStorage.getItem("user");
+      return stored ? JSON.parse(stored) : null;
+    } catch (err) {
+      console.error("❌ Nepavyko nuskaityti 'user' iš localStorage:", err);
+      return null;
+    }
   });
 
   const location = useLocation();
@@ -41,21 +46,46 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
-            <Route path="/accounts" element={
-              <ProtectedRoute><AccountsList /></ProtectedRoute>
-            } />
-            <Route path="/accounts/new" element={
-              <ProtectedRoute><NewAccount /></ProtectedRoute>
-            } />
-            <Route path="/accounts/add/:id" element={
-              <ProtectedRoute><AddFunds /></ProtectedRoute>
-            } />
-            <Route path="/accounts/withdraw/:id" element={
-              <ProtectedRoute><WithdrawFunds /></ProtectedRoute>
-            } />
-            <Route path="/accounts/:id" element={
-              <ProtectedRoute><AccountDetails /></ProtectedRoute>
-            } />
+            <Route
+              path="/accounts"
+              element={
+                <ProtectedRoute>
+                  <AccountsList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/accounts/new"
+              element={
+                <ProtectedRoute>
+                  <NewAccount />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/accounts/add/:id"
+              element={
+                <ProtectedRoute>
+                  <AddFunds />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/accounts/withdraw/:id"
+              element={
+                <ProtectedRoute>
+                  <WithdrawFunds />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/accounts/:id"
+              element={
+                <ProtectedRoute>
+                  <AccountDetails />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </main>
         <Footer />
